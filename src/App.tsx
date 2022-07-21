@@ -79,12 +79,12 @@ function App (): JSX.Element {
   })
 
   return (
-    <div className='App bg-slate-400 h-screen'>
-      <h1 className='text-center text-3xl pt-4 font-bold text-white drop-shadow-sm'>Memory Cat Game</h1>
-      <div className='grid grid-cols-5 grid-rows-2 place-content-center place-items-center gap-6 m-8'>
+    <div className='App bg-slate-400 h-screen font-body'>
+      <h1 className='text-center text-3xl pt-8 font-bold text-white drop-shadow-sm font-title'>Memory Cat Game</h1>
+      <div className='grid grid-cols-5 grid-rows-2 place-content-center place-items-center gap-6 m-8 bg-slate-300 p-8 rounded-xl shadow-md border-b border-b-white'>
         {cardElements}
       </div>
-      <p className='text-center text-xl my-10'>Score: {score} </p>
+      <p className='text-center text-xl my-10 text-white font-semibold'>Score: {score}</p>
     </div>
   )
 }
