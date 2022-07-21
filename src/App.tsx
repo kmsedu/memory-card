@@ -11,7 +11,7 @@ export interface Cat {
 function App (): JSX.Element {
   const [cats, setCats] = useState<Cat[]>([])
   const [score, setScore] = useState(0)
-  console.log(cats)
+
   useEffect(() => {
     async function fetchCats (): Promise<void> {
       const response = await fetch('https://api.thecatapi.com/v1/images/search?limit=10&mime_types=png,jpg')
@@ -41,6 +41,7 @@ function App (): JSX.Element {
   const toggleSelected = (id: string): void => {
     const selectedCat = cats.find((cat) => cat.id === id)
     if (selectedCat?.selected ?? false) {
+      setScore(0)
       setCats((prevCats) => {
         return prevCats.map((cat) => {
           cat.selected = false
@@ -50,6 +51,7 @@ function App (): JSX.Element {
       return
     }
     setCats((prevCats) => {
+      setScore(score + 1)
       return prevCats.map((cat: Cat) => {
         if (cat.id === id) {
           cat.selected = true
@@ -64,7 +66,6 @@ function App (): JSX.Element {
       return shuffleArray([...prevCats])
     })
     toggleSelected(id)
-    setScore(cats.filter((cat) => cat.selected).length + 1)
   }
 
   const cardElements = cats.map((catObj: Cat) => {
@@ -72,16 +73,15 @@ function App (): JSX.Element {
       <Card
         cat={catObj}
         key={catObj.id}
-        toggleSelected={toggleSelected}
         handleCatClick={handleCatClick}
       />
     )
   })
 
   return (
-    <div className='App'>
-      <h1 className='text-center text-3xl my-10'>Memory Cat Game</h1>
-      <div className='grid grid-cols-5 grid-rows-2 place-content-center place-items-center gap-6'>
+    <div className='App bg-slate-400 h-screen'>
+      <h1 className='text-center text-3xl pt-4 font-bold text-white drop-shadow-sm'>Memory Cat Game</h1>
+      <div className='grid grid-cols-5 grid-rows-2 place-content-center place-items-center gap-6 m-8'>
         {cardElements}
       </div>
       <p className='text-center text-xl my-10'>Score: {score} </p>
