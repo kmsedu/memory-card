@@ -29,6 +29,16 @@ function App (): JSX.Element {
     fetchCats().catch((error) => console.log(error))
   }, [])
 
+  const shuffleArray = (arr: Cat[]): Cat[] => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+    return arr
+  }
+
   const toggleSelected = (id: string): void => {
     setCats((prevCats) => {
       return prevCats.map((cat: Cat) => {
