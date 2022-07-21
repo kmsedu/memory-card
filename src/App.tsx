@@ -10,8 +10,7 @@ export interface Cat {
 
 function App (): JSX.Element {
   const [cats, setCats] = useState<Cat[]>([])
-
-  console.log(cats)
+  const [score, setScore] = useState(0)
 
   useEffect(() => {
     async function fetchCats (): Promise<void> {
@@ -50,12 +49,20 @@ function App (): JSX.Element {
     })
   }
 
+  const handleCatClick = (id: string): void => {
+    console.log('Shuffling')
+    setCats((prevCats) => {
+      return shuffleArray([...prevCats])
+    })
+  }
+
   const cardElements = cats.map((catObj: Cat) => {
     return (
       <Card
         cat={catObj}
         key={catObj.id}
         toggleSelected={toggleSelected}
+        handleCatClick={handleCatClick}
       />
     )
   })
