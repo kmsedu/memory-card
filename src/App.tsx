@@ -11,7 +11,7 @@ export interface Cat {
 function App (): JSX.Element {
   const [cats, setCats] = useState<Cat[]>([])
   const [score, setScore] = useState(0)
-
+  console.log(cats)
   useEffect(() => {
     async function fetchCats (): Promise<void> {
       const response = await fetch('https://api.thecatapi.com/v1/images/search?limit=10&mime_types=png,jpg')
@@ -39,6 +39,16 @@ function App (): JSX.Element {
   }
 
   const toggleSelected = (id: string): void => {
+    const selectedCat = cats.find((cat) => cat.id === id)
+    if (selectedCat?.selected ?? false) {
+      setCats((prevCats) => {
+        return prevCats.map((cat) => {
+          cat.selected = false
+          return cat
+        })
+      })
+      return
+    }
     setCats((prevCats) => {
       return prevCats.map((cat: Cat) => {
         if (cat.id === id) {
@@ -50,10 +60,11 @@ function App (): JSX.Element {
   }
 
   const handleCatClick = (id: string): void => {
-    console.log('Shuffling')
     setCats((prevCats) => {
       return shuffleArray([...prevCats])
     })
+    toggleSelected(id)
+    setScore(cats.filter((cat) => cat.selected).length + 1)
   }
 
   const cardElements = cats.map((catObj: Cat) => {
@@ -73,7 +84,7 @@ function App (): JSX.Element {
       <div className='grid grid-cols-5 grid-rows-2 place-content-center place-items-center gap-6'>
         {cardElements}
       </div>
-      <p className='text-center text-xl my-10'>Score: </p>
+      <p className='text-center text-xl my-10'>Score: {score} </p>
     </div>
   )
 }

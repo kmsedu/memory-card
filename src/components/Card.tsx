@@ -7,7 +7,7 @@ interface CardProps {
 }
 
 export default function Card (props: CardProps): JSX.Element {
-  const { cat, toggleSelected, handleCatClick } = props
+  const { cat, handleCatClick } = props
 
   return (
     <div>
